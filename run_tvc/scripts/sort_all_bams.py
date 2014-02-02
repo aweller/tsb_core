@@ -49,7 +49,6 @@ def main():
     
     target_folder = sys.argv[1]
     
-    
     bams = [target_folder + x for x in os.listdir(target_folder) if x.endswith(".bam")]
     pool = mp.Pool(processes=4)    
      

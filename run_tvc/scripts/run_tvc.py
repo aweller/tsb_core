@@ -131,7 +131,7 @@ def main():
     
     pool_run = True
     
-    if pool_run: pool = mp.Pool(processes=4)
+    if pool_run: pool = mp.Pool(processes=3)
           
     for analysis in to_run:
         

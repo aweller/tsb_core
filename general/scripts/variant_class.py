@@ -237,8 +237,8 @@ class VCFrow(BasicRowParser):
                     if self.total_reads > 1:
                         self.alt_percent = round(int(self.FAO)/float(self.total_reads), 2) 
         
-        if "1717D" in self.filename and self.chrompos == "chr17\t7579472":
-            print self.__dict__
+#         if "1717D" in self.filename and self.chrompos == "chr17\t7579472":
+#             print self.__dict__
 #         print filename, self.ir_version, self.ref, self.alt, self.alt_consensus, self.is_variant
 #         try:print filename, self.func
 #         except: pass
@@ -261,9 +261,16 @@ class VCFrow(BasicRowParser):
         try:
             filterset_dict = {"all_positions":[True],
           "all_variants":[self.is_variant == True],
-          "actionable_variants":[self.is_variant == True, self.in_blacklist == "WHITE", "exon" in self.loc, 
-                                 "syn" not in self.func, "ref" not in self.func, self.ir_version == "14" or int(self.FAO)>50,
-                                  int(self.FRO)+int(self.FAO)>500, self.FR == "."],
+          "actionable_variants":[self.is_variant == True, 
+                                 self.in_blacklist == "WHITE", 
+                                 "exon" in self.loc, # and "exonic_nc" not in self.loc, 
+                                 "syn" not in self.func, 
+                                 "ref" not in self.func, 
+                                  self.ir_version == "14" or int(self.FAO)>50,
+                                  int(self.FRO)+int(self.FAO)>500, 
+                                  self.FR == "."],
+                              
+                              
           "indels":[self.is_variant == True, self.type == "del" or self.type == "in" , "exon" in self.loc]
           }
             return all(filterset_dict[filter_code])
@@ -502,8 +509,8 @@ class ComparisonDataset:
                     output_file.write(outrow + "\n")
                     printed_rows += 1
                     
-#                     if filter_code == "actionable_variants":
-#                         print outrow
+                    if filter_code == "actionable_variants":
+                        print outrow
                         
             print "Printed %i variants to %s%s" % (printed_rows, output_dir, output_name)
     

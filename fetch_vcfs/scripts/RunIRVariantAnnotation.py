@@ -40,7 +40,7 @@ def main():
     for analysis in analysisReader:
         
         analysis_id = analysis[0]
-        analysis_ir_version = "ir16"
+        analysis_ir_version = "ir40"
 #         analysis_ir_version = analysis[1]
         
         analysis_base_url = api_config['analysis_base_url'].replace("IR_VERSION", analysis_ir_version)

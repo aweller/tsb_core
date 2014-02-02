@@ -78,7 +78,29 @@ def parse_annotation(annotation_file):
                             annotations[chrompos] = {}
                             
                         annotations[chrompos][key] = value
+            
+            elif row.split()[2] in ["INDEL", "NOCALL", "REF", "SNV", "type"]: # version 40 full
+                fields = row.split()
+                chrom = "chr" + fields[0]
+                pos = fields[1]
+                chrompos = chrom +"\t"+ pos
                 
+                if not annotations.get(chrompos):
+                    annotations[chrompos] = {}
+
+                annotations[chrompos]["ref"] = fields[3]
+                annotations[chrompos]["alt"] = fields[5]
+                
+#                 print fields
+                
+                try:
+                    annotations[chrompos]["gid"] = fields[6].split(":")[0]
+                    annotations[chrompos]["loc"] = fields[8]
+                    annotations[chrompos]["func"] = fields[9].split(":")[0].strip("[]")
+                    infofield = fields[11]    
+                except:
+                    pass                                       
+                    
                         
             else: # version 16
                 fields = row.split()
@@ -100,7 +122,6 @@ def parse_annotation(annotation_file):
                 except:
                     pass           
         
-#         print annotations["chr1\t115256529"]["func"]
         return annotations
 
 def parse_run_database():
